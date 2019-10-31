@@ -3,6 +3,7 @@ package com.arioki.latihan1
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,7 +15,10 @@ class MainActivity : AppCompatActivity() {
         initData()
         val list = findViewById<RecyclerView>(R.id.club_list)
         list.layoutManager = LinearLayoutManager(this)
-        list.adapter = RecyclerViewAdapter(this,items)
+        list.adapter = RecyclerViewAdapter(this, items){
+            val toast = Toast.makeText(applicationContext, it.name, Toast.LENGTH_SHORT)
+            toast.show()
+        }
     }
 
     private fun initData() {

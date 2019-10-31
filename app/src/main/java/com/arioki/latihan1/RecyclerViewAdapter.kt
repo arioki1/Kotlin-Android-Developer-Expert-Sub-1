@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class RecyclerViewAdapter(private val context: Context, private val items: List<Item>) :
+class RecyclerViewAdapter(private val context: Context, private val items: List<Item>, private val listener: (Item) -> Unit) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -22,16 +22,18 @@ class RecyclerViewAdapter(private val context: Context, private val items: List<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(items[position])
+        holder.bindItem(items[position], listener)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val name = view.findViewById<TextView>(R.id.name)
         private val image = view.findViewById<ImageView>(R.id.image)
-        fun bindItem(item: Item) {
-            name.text = item.name
-            item.image?.let { Picasso.get().load(it).fit().into(image) }
-
+        fun bindItem(items: Item, listener: (Item) -> Unit) {
+            name.text = items.name
+            items.image?.let { Picasso.get().load(it).fit().into(image) }
+            itemView.setOnClickListener {
+                listener(items)
+            }
         }
     }
 }
